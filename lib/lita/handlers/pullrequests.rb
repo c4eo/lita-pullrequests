@@ -22,6 +22,10 @@ module Lita
         "(summarize|all) pull requests" => "Lists all pull requests that need action."
       })
 
+      route(/^PRs$/i, :list_all_pull_requests, command: true, help: {
+        "PRs (case-insensitive)" => "Alias that lists all pull requests that need action."
+      })
+
       route(/^set pull request(s)? reminder for (.*)$/, :set_reminder, command: true, help: {
         "set pull request(s)? reminder for CRON EXPRESSION" => "Sets a cron task that will trigger a pr summary."
       })
@@ -106,7 +110,7 @@ module Lita
       def formatted_pull_request_summary
         {
           ":heavy_exclamation_mark: *Pull Requests that need review*:\n"     => pulls_that_need_reviews,
-          ":thought_balloon: *Pull Requests that need QA*:\n"                => pulls_that_need_qa,
+          # ":thought_balloon: *Pull Requests that need QA*:\n"                => pulls_that_need_qa,
           ":white_check_mark: *Pull Requests that are ready for merging*:\n" => pulls_that_need_merging
         }.map do |heading, pulls|
           heading + if pulls.any?
